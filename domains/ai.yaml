@@ -1,0 +1,59 @@
+domain:
+  name: "AI"
+  display_name: "人工智能"
+  description: "AI行业前沿动态、论文、开源项目、产品发布"
+
+sources:
+  - name: "arXiv"
+    type: "api"
+    endpoint: "http://export.arxiv.org/api/query"
+    params:
+      search_query: "cat:cs.AI OR cat:cs.CL OR cat:cs.LG"
+      max_results: 20
+      sortBy: "submittedDate"
+    weight: 0.3
+    schedule: "daily"
+
+  - name: "GitHub Trending"
+    type: "scraper"
+    url: "https://github.com/trending"
+    params:
+      language: "python"
+      since: "daily"
+    weight: 0.2
+    schedule: "daily"
+
+  - name: "HackerNews"
+    type: "api"
+    endpoint: "https://hacker-news.firebaseio.com/v0/topstories.json"
+    params:
+      limit: 30
+    weight: 0.2
+    schedule: "daily"
+
+  - name: "TechCrunch"
+    type: "rss"
+    url: "https://techcrunch.com/category/artificial-intelligence/feed/"
+    weight: 0.15
+    schedule: "daily"
+
+  - name: "Google News"
+    type: "rss"
+    url: "https://news.google.com/rss/search?q=artificial+intelligence&hl=zh-CN"
+    weight: 0.15
+    schedule: "daily"
+
+filtering:
+  min_relevance_score: 6
+  max_age_hours: 48
+  dedup_window_hours: 24
+  compliance_filter: true
+  max_items_per_density:
+    quick_scan: 12
+    standard: 8
+    research: 3
+
+embedding:
+  model: "text-embedding-3-small"
+  dimensions: 1536
+  index_on_ingest: true

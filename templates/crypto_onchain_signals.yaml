@@ -1,0 +1,29 @@
+template:
+  name: "链上信号分析"
+  description: "深度分析链上数据，追踪巨鲸动向、Gas趋势和智能合约交互"
+  domain: "Crypto"
+  creator_type: "system"
+  version: 1
+
+prompt_config:
+  collection_weights:
+    CoinGecko: 0.1
+    DeFiLlama: 0.15
+    Etherscan: 0.4
+    Messari: 0.25
+    Google News: 0.1
+  filtering:
+    min_relevance_score: 6
+    max_age_hours: 48
+    dedup_window_hours: 24
+    focus_keywords: ["whale", "transaction", "gas", "smart contract", "巨鲸", "链上", "转账", "合约"]
+    exclude_keywords: []
+  output:
+    analysis_framework: "巨鲸动向 → Gas趋势 → 合约交互 → 信号解读"
+    tone: "数据驱动，信号导向"
+    language: "zh-CN"
+    sections:
+      - "巨鲸追踪"
+      - "Gas与网络"
+      - "热门合约"
+      - "信号汇总"

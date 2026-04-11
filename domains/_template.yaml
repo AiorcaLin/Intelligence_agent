@@ -1,0 +1,84 @@
+# =============================================================================
+# 领域配置模板 - Domain Configuration Template
+# =============================================================================
+# 使用方法：复制此文件并重命名为 <domain_name>.yaml
+# 填入对应领域的数据源和过滤规则
+# =============================================================================
+
+domain:
+  # 领域唯一标识（英文，用于系统内部引用）
+  name: "YourDomain"
+  # 领域显示名称（用于用户界面展示）
+  display_name: "你的领域名称"
+  # 领域描述（简要说明该领域覆盖的内容范围）
+  description: "该领域的简要描述"
+
+# =============================================================================
+# 数据源配置
+# =============================================================================
+# 每个数据源需要指定：
+#   - name: 数据源名称（唯一标识）
+#   - type: 类型，可选 api / rss / scraper
+#   - endpoint/url: API端点或RSS/网页URL
+#   - params: 请求参数（根据数据源类型不同而异）
+#   - weight: 权重（0-1之间，所有数据源权重之和建议为1）
+#   - schedule: 采集频率，可选 daily / hourly / realtime
+# =============================================================================
+sources:
+  - name: "Source1"
+    type: "api"                          # api | rss | scraper
+    endpoint: "https://api.example.com/v1/data"
+    params:
+      query: "your_search_query"
+      limit: 20
+    weight: 0.4                          # 该数据源在综合评分中的权重
+    schedule: "daily"                    # daily | hourly | realtime
+
+  - name: "Source2"
+    type: "rss"
+    url: "https://example.com/feed.xml"
+    weight: 0.3
+    schedule: "daily"
+
+  - name: "Source3"
+    type: "scraper"
+    url: "https://example.com/trending"
+    params:
+      selector: ".item-list"
+      max_pages: 3
+    weight: 0.3
+    schedule: "daily"
+
+# =============================================================================
+# 过滤规则
+# =============================================================================
+# min_relevance_score: 最低相关性评分（1-10），低于此分数的内容将被过滤
+# max_age_hours: 内容最大保留时间（小时），超时内容不再采集
+# dedup_window_hours: 去重窗口（小时），窗口内相似内容自动去重
+# compliance_filter: 是否启用合规过滤（过滤敏感/不合规内容）
+# max_items_per_density: 不同密度级别的最大条目数
+#   - quick_scan: 快速浏览模式
+#   - standard: 标准模式
+#   - research: 深度研究模式
+# =============================================================================
+filtering:
+  min_relevance_score: 6
+  max_age_hours: 48
+  dedup_window_hours: 24
+  compliance_filter: true
+  max_items_per_density:
+    quick_scan: 12
+    standard: 8
+    research: 3
+
+# =============================================================================
+# Embedding 向量化配置
+# =============================================================================
+# model: 使用的向量化模型名称
+# dimensions: 向量维度
+# index_on_ingest: 是否在数据入库时自动建立向量索引
+# =============================================================================
+embedding:
+  model: "text-embedding-3-small"
+  dimensions: 1536
+  index_on_ingest: true

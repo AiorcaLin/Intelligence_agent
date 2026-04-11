@@ -1,0 +1,64 @@
+domain:
+  name: "Crypto"
+  display_name: "加密货币"
+  description: "加密货币市场动态、DeFi协议、链上数据、行业分析"
+
+sources:
+  - name: "CoinGecko"
+    type: "api"
+    endpoint: "https://api.coingecko.com/api/v3"
+    params:
+      vs_currency: "usd"
+      order: "market_cap_desc"
+      per_page: 50
+      sparkline: false
+    weight: 0.3
+    schedule: "daily"
+
+  - name: "DeFiLlama"
+    type: "api"
+    endpoint: "https://api.llama.fi/protocols"
+    params:
+      limit: 30
+    weight: 0.25
+    schedule: "daily"
+
+  - name: "Etherscan"
+    type: "api"
+    endpoint: "https://api.etherscan.io/api"
+    params:
+      module: "account"
+      action: "txlist"
+      sort: "desc"
+    weight: 0.2
+    schedule: "daily"
+
+  - name: "Messari"
+    type: "api"
+    endpoint: "https://data.messari.io/api/v2/news"
+    params:
+      page_size: 20
+      fields: "title,content,published_at,url"
+    weight: 0.15
+    schedule: "daily"
+
+  - name: "Google News"
+    type: "rss"
+    url: "https://news.google.com/rss/search?q=cryptocurrency+bitcoin+ethereum&hl=zh-CN"
+    weight: 0.1
+    schedule: "daily"
+
+filtering:
+  min_relevance_score: 6
+  max_age_hours: 48
+  dedup_window_hours: 24
+  compliance_filter: true
+  max_items_per_density:
+    quick_scan: 12
+    standard: 8
+    research: 3
+
+embedding:
+  model: "text-embedding-3-small"
+  dimensions: 1536
+  index_on_ingest: true

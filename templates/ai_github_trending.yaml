@@ -1,0 +1,29 @@
+template:
+  name: "GitHub AI热门项目"
+  description: "聚焦GitHub上AI相关热门开源项目，追踪Star趋势和技术亮点"
+  domain: "AI"
+  creator_type: "system"
+  version: 1
+
+prompt_config:
+  collection_weights:
+    arXiv: 0.1
+    GitHub: 0.6
+    HackerNews: 0.15
+    TechCrunch: 0.1
+    Google News: 0.05
+  filtering:
+    min_relevance_score: 6
+    max_age_hours: 48
+    dedup_window_hours: 24
+    focus_keywords: ["open source", "AI", "ML", "LLM", "transformer", "GitHub", "repository", "stars"]
+    exclude_keywords: []
+  output:
+    analysis_framework: "项目介绍 → 技术亮点 → 使用场景 → Star趋势"
+    tone: "技术向，简洁明了"
+    language: "zh-CN"
+    sections:
+      - "今日热门项目"
+      - "新晋黑马"
+      - "持续增长"
+      - "值得收藏"

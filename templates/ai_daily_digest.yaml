@@ -1,0 +1,29 @@
+template:
+  name: "AI每日精选"
+  description: "覆盖AI全领域的每日情报精选，适合快速了解行业动态"
+  domain: "AI"
+  creator_type: "system"
+  version: 1
+
+prompt_config:
+  collection_weights:
+    arXiv: 0.25
+    GitHub: 0.2
+    HackerNews: 0.2
+    TechCrunch: 0.2
+    Google News: 0.15
+  filtering:
+    min_relevance_score: 6
+    max_age_hours: 48
+    dedup_window_hours: 24
+    focus_keywords: ["LLM", "GPT", "AI Agent", "深度学习", "大模型", "RAG", "多模态"]
+    exclude_keywords: []
+  output:
+    analysis_framework: "技术突破 → 应用场景 → 行业影响 → 行动建议"
+    tone: "专业但易懂"
+    language: "zh-CN"
+    sections:
+      - "重点突破"
+      - "开源动态"
+      - "行业新闻"
+      - "值得关注"

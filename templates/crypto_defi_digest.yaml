@@ -1,0 +1,29 @@
+template:
+  name: "DeFi协议动态"
+  description: "聚焦DeFi生态，追踪协议TVL变化、收益机会和安全事件"
+  domain: "Crypto"
+  creator_type: "system"
+  version: 1
+
+prompt_config:
+  collection_weights:
+    CoinGecko: 0.1
+    DeFiLlama: 0.4
+    Etherscan: 0.2
+    Messari: 0.2
+    Google News: 0.1
+  filtering:
+    min_relevance_score: 6
+    max_age_hours: 48
+    dedup_window_hours: 24
+    focus_keywords: ["DeFi", "TVL", "yield", "protocol", "liquidity", "流动性", "收益", "协议"]
+    exclude_keywords: []
+  output:
+    analysis_framework: "TVL变化 → 新协议 → 收益机会 → 安全事件"
+    tone: "专业分析，注重风险提示"
+    language: "zh-CN"
+    sections:
+      - "TVL排行变动"
+      - "新协议速递"
+      - "收益策略"
+      - "安全警报"

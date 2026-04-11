@@ -1,0 +1,29 @@
+template:
+  name: "AI论文精读"
+  description: "精选arXiv上最具影响力的AI论文，深度解读研究方法和实验结果"
+  domain: "AI"
+  creator_type: "system"
+  version: 1
+
+prompt_config:
+  collection_weights:
+    arXiv: 0.6
+    GitHub: 0.15
+    HackerNews: 0.1
+    TechCrunch: 0.1
+    Google News: 0.05
+  filtering:
+    min_relevance_score: 7
+    max_age_hours: 72
+    dedup_window_hours: 48
+    focus_keywords: ["paper", "research", "SOTA", "benchmark", "论文", "实验", "模型", "方法"]
+    exclude_keywords: []
+  output:
+    analysis_framework: "研究问题 → 方法创新 → 实验结果 → 实际意义"
+    tone: "学术严谨，深入浅出"
+    language: "zh-CN"
+    sections:
+      - "重磅论文"
+      - "方法突破"
+      - "Benchmark刷新"
+      - "值得跟进"

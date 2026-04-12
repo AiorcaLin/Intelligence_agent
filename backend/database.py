@@ -20,6 +20,8 @@ async_session_factory = async_sessionmaker(
     expire_on_commit=False,
 )
 
+async_session = async_session_factory
+
 
 class Base(DeclarativeBase):
     pass

@@ -26,6 +26,10 @@ class Settings(BaseSettings):
     # ── Embedding ─────────────────────────────────────────────
     EMBEDDING_MODEL: str = "text-embedding-3-small"
     EMBEDDING_DIMENSIONS: int = 1536
+    # 留空 = OpenAI 官方 (api.openai.com)；填入则走自定义 OpenAI 兼容端点
+    EMBEDDING_BASE_URL: str = ""
+    # 留空 = 使用 OPENAI_API_KEY；填入则覆盖（用于独立嵌入服务商的 Key）
+    EMBEDDING_API_KEY: str = ""
 
     # ── Credits / Pricing ─────────────────────────────────────
     PLATFORM_MULTIPLIER: float = 15.0

@@ -26,21 +26,32 @@ def _get_chroma() -> chromadb.HttpClient:
     return _chroma_client
 
 
-def _get_openai() -> openai.AsyncOpenAI:
+def _get_embedding_client() -> openai.AsyncOpenAI:
+    """返回嵌入客户端。
+    - EMBEDDING_BASE_URL 为空  → OpenAI 官方 (api.openai.com)
+    - EMBEDDING_BASE_URL 非空 → 任意 OpenAI 兼容端点（OpenRouter / SiliconFlow / DashScope …）
+    """
     global _openai_client
     if _openai_client is None:
-        _openai_client = openai.AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
+        api_key = settings.EMBEDDING_API_KEY or settings.OPENAI_API_KEY
+        kwargs: dict = {"api_key": api_key}
+        if settings.EMBEDDING_BASE_URL:
+            kwargs["base_url"] = settings.EMBEDDING_BASE_URL
+        _openai_client = openai.AsyncOpenAI(**kwargs)
     return _openai_client
 
 
 async def generate_embedding(text: str) -> list[float]:
-    """Generate embedding vector using OpenAI text-embedding-3-small."""
-    client = _get_openai()
-    response = await client.embeddings.create(
-        model=settings.EMBEDDING_MODEL,
-        input=text,
-        dimensions=settings.EMBEDDING_DIMENSIONS,
-    )
+    """生成嵌入向量。服务商由 EMBEDDING_BASE_URL / EMBEDDING_API_KEY 配置决定。"""
+    client = _get_embedding_client()
+    kwargs: dict = {
+        "model": settings.EMBEDDING_MODEL,
+        "input": text,
+    }
+    # dimensions 参数仅 OpenAI 官方支持截断；第三方端点不传，避免报错
+    if not settings.EMBEDDING_BASE_URL and settings.EMBEDDING_DIMENSIONS:
+        kwargs["dimensions"] = settings.EMBEDDING_DIMENSIONS
+    response = await client.embeddings.create(**kwargs)
     return response.data[0].embedding
 
 
